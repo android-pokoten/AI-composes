@@ -1,0 +1,14 @@
+services:
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:ollama
+    volumes:
+      - ./ollama:/root/.ollama
+      - ./data:/app/backend/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            capabilities: [gpu]
+    ports:
+      - "8080:8080"
