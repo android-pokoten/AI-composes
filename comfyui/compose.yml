@@ -2,6 +2,7 @@ services:
   comfyui:
     image: nvcr.io/nvidia/tensorrt:24.06-py3
     volumes:
+      - ./ComfyUI:/ComfyUI
       - /home/work:/work
     command:
     - /bin/bash
@@ -10,7 +11,7 @@ services:
       apt update
       apt install -y git python3-pip libgl1-mesa-dev libglib2.0-0
       pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-      cd /work/ComfyUI/
+      cd /ComfyUI/
       pip install -r requirements.txt
       python main.py --listen
     deploy:
@@ -19,7 +20,5 @@ services:
           devices:
           - driver: nvidia
             capabilities: [gpu]
-    tty: true
-    stdin_open: true
     ports:
       - "8188:8188"
