@@ -1,0 +1,19 @@
+services:
+  fastf1-libs:
+    image: nvcr.io/nvidia/cuda:12.1.0-base-ubuntu22.04
+    volumes:
+      - ./fastf1-libs:/fastf1-libs
+      - ./data:/data
+    command:
+    - /bin/bash
+    - -c
+    - |
+      apt update
+      apt install -y git python3-pip
+      cd /fastf1-libs/
+      pip install -r requirements-dev.txt
+      pip install fastf1_lib/
+      pip install jupyterlab
+      jupyter lab --allow-root
+    ports:
+      - "8888:8888"
