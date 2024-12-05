@@ -1,0 +1,26 @@
+services:
+  sbv2:
+    image: nvcr.io/nvidia/cuda:12.1.0-base-ubuntu22.04
+    volumes:
+      - ./Style-Bert-VITS2:/Style-Bert-VITS2
+    command:
+    - /bin/bash
+    - -c
+    - |
+      apt update
+      apt install -y git python3-pip libgl1-mesa-dev libglib2.0-0 ffmpeg
+      pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+      cd /Style-Bert-VITS2/
+      pip install -r requirements.txt
+      python3 initialize.py
+      python3 app.py --host=0.0.0.0
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+    ports:
+      - "7860:7860"
+      - "6006:6006"

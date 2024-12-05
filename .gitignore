@@ -7,3 +7,4 @@ fastf1-libs/fastf1-libs
 !/fastf1-libs/data/example.ipynb
 /fastf1-libs/cache/*
 !/fastf1-libs/cache/.gitkeep
+/style-bert-vits2/Style-Bert-VITS2
