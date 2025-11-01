@@ -2,13 +2,15 @@ services:
   openwebui:
     image: ghcr.io/open-webui/open-webui:ollama
     volumes:
-      - ./ollama:/root/.ollama
-      - ./data:/app/backend/data
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            capabilities: [gpu]
+      - /mnt/f/wsl/ollama:/root/.ollama
+      - /mnt/f/wsl/data:/app/backend/data
+    devices:
+      - "nvidia.com/gpu=all"
+    security_opt:
+      - "label=disable"
     ports:
       - "8080:8080"
+      - "11434:11434"
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+      

@@ -3,6 +3,10 @@ services:
     image: nvcr.io/nvidia/cuda:12.1.0-base-ubuntu22.04
     volumes:
       - ./Style-Bert-VITS2:/Style-Bert-VITS2
+    devices:
+      - "nvidia.com/gpu=all"
+    security_opt:
+      - "label=disable"
     command:
     - /bin/bash
     - -c
@@ -14,13 +18,6 @@ services:
       pip install -r requirements.txt
       python3 initialize.py
       python3 app.py --host=0.0.0.0
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            count: 1
-            capabilities: [gpu]
     ports:
       - "7860:7860"
       - "6006:6006"

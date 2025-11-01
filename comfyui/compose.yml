@@ -1,9 +1,13 @@
 services:
   comfyui:
     image: nvcr.io/nvidia/tensorrt:24.06-py3
+    devices:
+      - "nvidia.com/gpu=all"
+    security_opt:
+      - "label=disable"
     volumes:
       - ./ComfyUI:/ComfyUI
-      - /home/work:/work
+      - /mnt/f/wsl/models:/ComfyUI/models
     command:
     - /bin/bash
     - -c
@@ -14,11 +18,5 @@ services:
       cd /ComfyUI/
       pip install -r requirements.txt
       python main.py --listen
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            capabilities: [gpu]
     ports:
       - "8188:8188"
